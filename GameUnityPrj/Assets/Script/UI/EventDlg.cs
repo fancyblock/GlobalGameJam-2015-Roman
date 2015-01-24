@@ -34,15 +34,14 @@ public class EventDlg : MonoBehaviour
         m_event = evt;
 
         m_title.text = m_event.m_title;
-        m_title.text = m_event.m_info;
-
-        Empire.SharedInstance.m_money += evt.m_money;
-        UIMgr.SharedInstance.RefreshUI();
-
+        m_info.text = m_event.m_info;
     }
 
     public void onOk()
     {
+        Empire.SharedInstance.m_money += m_event.m_money;
+        UIMgr.SharedInstance.RefreshUI();
+
         m_callback();
     }
 

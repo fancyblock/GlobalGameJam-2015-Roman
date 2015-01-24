@@ -40,7 +40,7 @@ public class LandDlg : MonoBehaviour
         m_province = province;
 
         m_txtTitle.text = "进攻" + m_province.m_name + "?";
-        m_txtInfo.text = "是否要派出我们英勇的罗马军团占领这块土地。";
+        m_txtInfo.text = "是否要派出我们英勇的罗马军团占领这块土地(生产力" + province.m_productivity + ")。";
         m_txtBigAttack.text = "4个军团(必胜) " + m_province.GetBigAttackMoney() + "金币";
         m_txtMidAttack.text = "2个军团(50%胜) " + m_province.GetMidAttackMoney() + "金币";
         m_txtLittleAttack.text = "1个军团(20%胜) " + m_province.GetLittleAttackMoney() + "金币";

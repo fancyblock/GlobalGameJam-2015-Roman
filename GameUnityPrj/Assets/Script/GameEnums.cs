@@ -13,4 +13,6 @@ public class GameEnums
     public const int EVT_TYPE_GOLD_ORE = 4;
     public const int EVT_TYPE_INVADE = 5;
 
+    public const float REBEL_FACTOR = 0.12f;
+    public const float GOLD_FACTOR = 0.00001f;
 }

@@ -19,6 +19,7 @@ public class Empire : MonoBehaviour
 
     public string[] ENEMYS = new string[5] { "汉朝", "匈奴", "帕提亚", "日耳曼", "玛雅" };
 
+    public float m_goldRate;
 
     void Awake()
     {
@@ -40,6 +41,7 @@ public class Empire : MonoBehaviour
 	void Start () 
 	{
         m_timer = 0.0f;
+        m_goldRate = 0.0f;
         m_status = GameEnums.GAME_STATUS_RUNNING;
 
         UIMgr.SharedInstance.RefreshUI();
@@ -167,7 +169,25 @@ public class Empire : MonoBehaviour
     /// <param name="elapsed"></param>
     protected void randomEvent( float elapsed )
     {
+        m_goldRate += ( elapsed * GameEnums.GOLD_FACTOR );
+
+        if( UnityEngine.Random.value <= m_goldRate )
+        {
+            // generate a gold event 
+            TheEvent evt = new TheEvent();
+            evt.m_evtType = GameEnums.EVT_TYPE_GOLD_ORE;
+            evt.m_money = UnityEngine.Random.Range(1000, 5000);
+            evt.m_title = "发现金矿";
+            evt.m_info = "陛下，" + m_provinces[UnityEngine.Random.Range(0, m_provinces.Count-1)].m_name + "发现一个金矿，经开采将发掘出的金子铸成" + evt.m_money + "个金币。";
+
+            m_goldRate = 0.0f;
+
+            UIMgr.SharedInstance.ShowEventDlg(evt);
+        }
+
+        // invide 
         //TODO 
+
     }
 
 }

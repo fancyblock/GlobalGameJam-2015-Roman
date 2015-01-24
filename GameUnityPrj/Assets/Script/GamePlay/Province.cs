@@ -62,7 +62,7 @@ public class Province : MonoBehaviour
     {
         if( m_taxRate > 0.1f )
         {
-            m_discontent += ( m_taxRate * m_taxRate * time * 0.12f );    //  magic number
+            m_discontent += ( m_taxRate * m_taxRate * time * GameEnums.REBEL_FACTOR );
 
             if( m_discontent > 1.0f )
             {
