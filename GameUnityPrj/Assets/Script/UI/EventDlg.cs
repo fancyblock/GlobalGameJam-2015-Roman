@@ -32,8 +32,12 @@ public class EventDlg : MonoBehaviour
         gameObject.SetActive(true);
 
         m_event = evt;
-        
-        //TODO 
+
+        m_title.text = m_event.m_title;
+        m_title.text = m_event.m_info;
+
+        Empire.SharedInstance.m_money += evt.m_money;
+        UIMgr.SharedInstance.RefreshUI();
 
     }
 

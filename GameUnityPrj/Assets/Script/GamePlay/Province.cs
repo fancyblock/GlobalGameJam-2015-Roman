@@ -14,10 +14,17 @@ public class Province : MonoBehaviour
     public Color m_conqueredColor;
     public Color m_unconqueredColor;
 
+    public float m_discontent;
+
+    public float m_tax;
+
 	// Use this for initialization
 	void Start () 
 	{
         m_txtName.text = m_name;
+        m_discontent = 0.0f;
+        m_discontent = 0.0f;
+        m_tax = 0.0f;
 
         Refresh();
 	}
@@ -45,6 +52,39 @@ public class Province : MonoBehaviour
     public int GetIncome()
     {
         return (int)( m_productivity * m_taxRate );
+    }
+
+    /// <summary>
+    /// running 
+    /// </summary>
+    /// <param name="time"></param>
+    public int Running( float time )
+    {
+        if( m_taxRate > 0.1f )
+        {
+            m_discontent += ( m_taxRate * m_taxRate * time );
+
+            if( m_discontent > 1.0f )
+            {
+                m_discontent = 1.0f;
+            }
+        }
+        else if( m_taxRate < 0.1f )
+        {
+            m_discontent -= time * 3;   //<- 
+        }
+
+        m_tax += m_productivity * (m_taxRate * time);
+
+        if( m_tax >= 1.0f )
+        {
+            int rest = (int)(m_tax);
+            m_tax -= rest;
+
+            return rest;
+        }
+
+        return 0;
     }
 
     /// <summary>

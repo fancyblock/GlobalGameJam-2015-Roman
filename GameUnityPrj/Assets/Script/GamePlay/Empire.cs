@@ -17,6 +17,8 @@ public class Empire : MonoBehaviour
 
     protected int m_priorStatus;
 
+    public string[] ENEMYS = new string[5] { "汉朝", "匈奴", "帕提亚", "日耳曼", "玛雅" };
+
 
     void Awake()
     {
@@ -51,15 +53,24 @@ public class Empire : MonoBehaviour
             m_timer += Time.deltaTime;
             UIMgr.SharedInstance.RefreshProgress();
 
+            float yearInterval = Time.deltaTime / m_yearTime;
+
+            // province refresh 
+            foreach( Province province in m_provinces )
+            {
+                m_money += province.Running(yearInterval);
+            }
+
             // refresh event 
-            //TODO 
+            randomEvent(yearInterval);
 
             if (m_timer >= m_yearTime)
             {
-                m_status = GameEnums.GAME_STATUS_WAITTING;
-                m_timer = 0.0f;
-                UIMgr.SharedInstance.RefreshUI();
+                m_timer -= m_yearTime;
+                m_age++;
             }
+
+            UIMgr.SharedInstance.RefreshUI();
         }
 	}
 
@@ -74,24 +85,9 @@ public class Empire : MonoBehaviour
     /// <summary>
     /// goto next turn
     /// </summary>
-    public void onNextTurn()
+    public void onStart()
     {
-        // calculate the income 
-        int income = 0;
-        foreach (Province p in m_provinces)
-        {
-            income += p.GetIncome();
-        }
-
-        // add income to exchequer
-        m_money += income;
-
         m_status = GameEnums.GAME_STATUS_RUNNING;
-        m_timer = 0.0f;
-        m_age++;
-
-        UIMgr.SharedInstance.RefreshUI();
-        UIMgr.SharedInstance.RefreshProgress();
     }
 
     /// <summary>
@@ -101,6 +97,9 @@ public class Empire : MonoBehaviour
     public void AddProvince(Province province)
     {
         province.m_conquered = true;
+        province.m_taxRate = 0.1f;
+        province.m_discontent = 0.0f;
+        province.m_tax = 0.0f;
         province.Refresh();
         m_provinces.Add(province);
 
@@ -135,6 +134,16 @@ public class Empire : MonoBehaviour
     public void Resume()
     {
         m_status = m_priorStatus;
+    }
+
+
+    /// <summary>
+    /// random event 
+    /// </summary>
+    /// <param name="elapsed"></param>
+    protected void randomEvent( float elapsed )
+    {
+        //TODO 
     }
 
 }

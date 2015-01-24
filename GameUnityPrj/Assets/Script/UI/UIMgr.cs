@@ -34,10 +34,8 @@ public class UIMgr : MonoBehaviour
     public UILabel m_txtAge;
     public UILabel m_txtMoney;
     public UILabel m_txtProvinceInfo;
-    public UILabel m_txtNextMoney;
     public UIProgressBar m_yearProgressBar;
     public UIButton m_btnPayTribute;
-    public UIButton m_btnNextYear;
 
     public GameObject m_dialogMask;
     // action dlgs 
@@ -62,26 +60,15 @@ public class UIMgr : MonoBehaviour
     /// </summary>
     public void RefreshUI()
     {
-        int income = 0;
-        foreach (Province p in m_empire.m_provinces)
-        {
-            income += p.GetIncome();
-        }
-
         m_txtAge.text = "公元" + m_empire.m_age + "年";
         m_txtMoney.text = "国库：" + m_empire.m_money + "金币";
         m_txtProvinceInfo.text = "行省数：" + m_empire.m_provinces.Count;
-        m_txtNextMoney.text = "明年收入：" + income;
 
         if (m_empire.m_status == GameEnums.GAME_STATUS_READY)
         {
             //TODO 
         }
         else if (m_empire.m_status == GameEnums.GAME_STATUS_RUNNING)
-        {
-            //TODO 
-        }
-        else if (m_empire.m_status == GameEnums.GAME_STATUS_WAITTING)
         {
             //TODO 
         }
@@ -130,7 +117,21 @@ public class UIMgr : MonoBehaviour
         m_dialogMask.SetActive(true);
         m_empire.Pause();
 
-        m_eventDlg.Show(evt);
+        if( evt.m_evtType == GameEnums.EVT_TYPE_GOLD_ORE ||
+            evt.m_evtType == GameEnums.EVT_TYPE_TRIBUTE )
+        {
+            m_eventDlg.Show(evt);
+        }
+        else if( evt.m_evtType == GameEnums.EVT_TYPE_BLACKMAIL )
+        {
+            //TODO 
+        }
+        else if( evt.m_evtType == GameEnums.EVT_TYPE_INVADE ||
+                evt.m_evtType == GameEnums.EVT_TYPE_REBELLION )
+        {
+            //TODO 
+        }
+        
     }
 
     /// <summary>
