@@ -35,14 +35,7 @@ public class Province : MonoBehaviour
     {
         Debug.Log("[Province]: onClick => " + m_name);
 
-        if (m_conquered)
-        {
-            //TODO 
-        }
-        else
-        {
-            //TODO 
-        }
+        UIMgr.SharedInstance.ShowProvinceDlg(this);
     }
 
     /// <summary>

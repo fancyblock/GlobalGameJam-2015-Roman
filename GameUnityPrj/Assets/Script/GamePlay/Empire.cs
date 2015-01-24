@@ -12,17 +12,9 @@ public class Empire : MonoBehaviour
 
     public float m_yearTime;
 
-    // UI stuff 
-    public UILabel m_txtAge;
-    public UILabel m_txtMoney;
-    public UILabel m_txtProvinceInfo;
-    public UILabel m_txtNextMoney;
-    public UIProgressBar m_yearProgressBar;
-    public UIButton m_btnPayTribute;
-    public UIButton m_btnNextYear;
+    public int m_status;
+    public float m_timer;
 
-    protected int m_status;
-    protected float m_timer;
 
     void Awake()
     {
@@ -46,7 +38,7 @@ public class Empire : MonoBehaviour
         m_timer = 0.0f;
         m_status = GameEnums.GAME_STATUS_READY;
 
-        refreshUI();
+        UIMgr.SharedInstance.RefreshUI();
 	}
 	
 	// Update is called once per frame
@@ -55,13 +47,13 @@ public class Empire : MonoBehaviour
         if (m_status == GameEnums.GAME_STATUS_RUNNING)
         {
             m_timer += Time.deltaTime;
-            refreshProgress();
+            UIMgr.SharedInstance.RefreshProgress();
 
             if (m_timer >= m_yearTime)
             {
                 m_status = GameEnums.GAME_STATUS_WAITTING;
                 m_timer = 0.0f;
-                refreshUI();
+                UIMgr.SharedInstance.RefreshUI();
             }
         }
 	}
@@ -71,7 +63,7 @@ public class Empire : MonoBehaviour
     /// </summary>
     public void onPayTribute()
     {
-        //TODO 
+        UIMgr.SharedInstance.ShowTributeDlg();
     }
 
     /// <summary>
@@ -91,8 +83,8 @@ public class Empire : MonoBehaviour
         m_timer = 0.0f;
         m_age++;
 
-        refreshUI();
-        refreshProgress();
+        UIMgr.SharedInstance.RefreshUI();
+        UIMgr.SharedInstance.RefreshProgress();
     }
 
     /// <summary>
@@ -115,51 +107,6 @@ public class Empire : MonoBehaviour
         province.m_conquered = false;
         province.Refresh();
         m_provinces.Remove(province);
-    }
-
-    /// <summary>
-    /// refresh UI
-    /// </summary>
-    protected void refreshUI()
-    {
-        int income = 0;
-        foreach (Province p in m_provinces)
-        {
-            income += p.GetIncome();
-        }
-
-        m_txtAge.text = "公元" + m_age + "年";
-        m_txtMoney.text = "国库：" + m_money + "金币";
-        m_txtProvinceInfo.text = "行省数：" + m_provinces.Count;
-        m_txtNextMoney.text = "明年收入：" + income;
-
-        if (m_status == GameEnums.GAME_STATUS_READY)
-        {
-            //TODO 
-        }
-        else if (m_status == GameEnums.GAME_STATUS_RUNNING)
-        {
-            //TODO 
-        }
-        else if (m_status == GameEnums.GAME_STATUS_WAITTING)
-        {
-            //TODO 
-        }
-    }
-
-    /// <summary>
-    /// refresh progress 
-    /// </summary>
-    protected void refreshProgress()
-    {
-        float progress = m_timer / m_yearTime;
-
-        if (progress > 1.0f)
-        {
-            progress = 1.0f;
-        }
-
-        m_yearProgressBar.value = progress;
     }
 
 }

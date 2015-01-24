@@ -14,4 +14,5 @@ public class GameEnums
     public const int EVT_TYPE_GOLD_ORE = 4;
     public const int EVT_TYPE_INVADE = 5;
 
+    //public const int DLG_ 
 }
