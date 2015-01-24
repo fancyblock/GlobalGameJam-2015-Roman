@@ -15,4 +15,5 @@ public class GameEnums
 
     public const float REBEL_FACTOR = 0.12f;
     public const float GOLD_FACTOR = 0.00001f;
+    public const float INVADE_FACTOR = 0.000012f;
 }

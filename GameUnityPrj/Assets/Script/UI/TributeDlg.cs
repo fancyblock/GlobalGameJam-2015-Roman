@@ -31,7 +31,7 @@ public class TributeDlg : MonoBehaviour
 
         m_txtTitle.text = "进贡金币" + m_cost;
 
-        //TODO 
+        Empire.SharedInstance.m_invadeRate = 0.0f;
     }
 
     /// <summary>

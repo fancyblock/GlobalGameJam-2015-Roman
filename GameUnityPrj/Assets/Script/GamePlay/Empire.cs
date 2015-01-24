@@ -20,6 +20,7 @@ public class Empire : MonoBehaviour
     public string[] ENEMYS = new string[5] { "汉朝", "匈奴", "帕提亚", "日耳曼", "玛雅" };
 
     public float m_goldRate;
+    public float m_invadeRate;
 
     void Awake()
     {
@@ -42,6 +43,7 @@ public class Empire : MonoBehaviour
 	{
         m_timer = 0.0f;
         m_goldRate = 0.0f;
+        m_invadeRate = 0.0f;
         m_status = GameEnums.GAME_STATUS_RUNNING;
 
         UIMgr.SharedInstance.RefreshUI();
@@ -169,6 +171,9 @@ public class Empire : MonoBehaviour
     /// <param name="elapsed"></param>
     protected void randomEvent( float elapsed )
     {
+        if (Empire.SharedInstance.m_provinces.Count <= 0) return;
+
+        // find gold 
         m_goldRate += ( elapsed * GameEnums.GOLD_FACTOR );
 
         if( UnityEngine.Random.value <= m_goldRate )
@@ -183,10 +188,23 @@ public class Empire : MonoBehaviour
             m_goldRate = 0.0f;
 
             UIMgr.SharedInstance.ShowEventDlg(evt);
-        }
 
+            return;
+        }
+        
         // invide 
-        //TODO 
+        m_invadeRate += ( elapsed * GameEnums.INVADE_FACTOR);
+        if( UnityEngine.Random.value <= m_invadeRate )
+        {
+            // generate a invide  event 
+            TheEvent evt = new TheEvent();
+            evt.m_evtType = GameEnums.EVT_TYPE_INVADE;
+            evt.m_province = m_provinces[UnityEngine.Random.Range(0, m_provinces.Count - 1)];
+
+            m_invadeRate = 0.0f;
+
+            UIMgr.SharedInstance.ShowEventDlg(evt);
+        }
 
     }
 
