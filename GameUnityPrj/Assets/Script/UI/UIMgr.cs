@@ -40,6 +40,22 @@ public class UIMgr : MonoBehaviour
     public UIButton m_btnNextYear;
 
     public GameObject m_dialogMask;
+    // action dlgs 
+    public ProvinceDlg m_provinceDlg;
+    public LandDlg m_landDlg;
+    public TributeDlg m_tributeDlg;
+    public EventDlg m_eventDlg;
+
+    /// <summary>
+    /// start 
+    /// </summary>
+    void Start()
+    {
+        m_landDlg.m_callback = onDlgClosed;
+        m_provinceDlg.m_callback = onDlgClosed;
+        m_tributeDlg.m_callback = onDlgClosed;
+        m_eventDlg .m_callback = onDlgClosed;
+    }
 
     /// <summary>
     /// refresh UI
@@ -92,13 +108,16 @@ public class UIMgr : MonoBehaviour
     /// <param name="province"></param>
     public void ShowProvinceDlg( Province province )
     {
+        m_dialogMask.SetActive(true);
+        m_empire.Pause();
+
         if( province.m_conquered )
         {
-            //TODO 
+            m_provinceDlg.Show(province);
         }
         else
         {
-            //TODO 
+            m_landDlg.Show(province);
         }
     }
 
@@ -108,7 +127,10 @@ public class UIMgr : MonoBehaviour
     /// <param name="evt"></param>
     public void ShowEventDlg( TheEvent evt )
     {
-        //TODO 
+        m_dialogMask.SetActive(true);
+        m_empire.Pause();
+
+        m_eventDlg.Show(evt);
     }
 
     /// <summary>
@@ -118,7 +140,24 @@ public class UIMgr : MonoBehaviour
     {
         Debug.Log("[UIMgr]: PayTribute");
 
-        //TODO 
+        m_dialogMask.SetActive(true);
+        m_empire.Pause();
+
+        m_tributeDlg.Show();
+    }
+
+    /// <summary>
+    /// callback when dialog closed 
+    /// </summary>
+    protected void onDlgClosed()
+    {
+        m_eventDlg.gameObject.SetActive(false);
+        m_landDlg.gameObject.SetActive(false);
+        m_provinceDlg.gameObject.SetActive(false);
+        m_tributeDlg.gameObject.SetActive(false);
+
+        m_dialogMask.SetActive(false);
+        m_empire.Resume();
     }
 
 }

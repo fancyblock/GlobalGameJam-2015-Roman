@@ -15,6 +15,8 @@ public class Empire : MonoBehaviour
     public int m_status;
     public float m_timer;
 
+    protected int m_priorStatus;
+
 
     void Awake()
     {
@@ -71,12 +73,14 @@ public class Empire : MonoBehaviour
     /// </summary>
     public void onNextTurn()
     {
+        // calculate the income 
         int income = 0;
         foreach (Province p in m_provinces)
         {
             income += p.GetIncome();
         }
 
+        // add income to exchequer
         m_money += income;
 
         m_status = GameEnums.GAME_STATUS_RUNNING;
@@ -96,6 +100,8 @@ public class Empire : MonoBehaviour
         province.m_conquered = true;
         province.Refresh();
         m_provinces.Add(province);
+
+        UIMgr.SharedInstance.RefreshUI();
     }
 
     /// <summary>
@@ -107,6 +113,25 @@ public class Empire : MonoBehaviour
         province.m_conquered = false;
         province.Refresh();
         m_provinces.Remove(province);
+
+        UIMgr.SharedInstance.RefreshUI();
+    }
+
+    /// <summary>
+    /// pause the empire 
+    /// </summary>
+    public void Pause()
+    {
+        m_priorStatus = m_status;
+        m_status = GameEnums.GAME_STATUS_PAUSE;
+    }
+
+    /// <summary>
+    /// resume the empire 
+    /// </summary>
+    public void Resume()
+    {
+        m_status = m_priorStatus;
     }
 
 }
