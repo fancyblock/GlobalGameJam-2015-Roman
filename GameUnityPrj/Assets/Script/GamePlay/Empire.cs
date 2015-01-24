@@ -40,7 +40,7 @@ public class Empire : MonoBehaviour
 	void Start () 
 	{
         m_timer = 0.0f;
-        m_status = GameEnums.GAME_STATUS_READY;
+        m_status = GameEnums.GAME_STATUS_RUNNING;
 
         UIMgr.SharedInstance.RefreshUI();
 	}
@@ -50,6 +50,8 @@ public class Empire : MonoBehaviour
 	{
         if (m_status == GameEnums.GAME_STATUS_RUNNING)
         {
+            bool hasEvent = false;
+
             m_timer += Time.deltaTime;
             UIMgr.SharedInstance.RefreshProgress();
 
@@ -59,10 +61,24 @@ public class Empire : MonoBehaviour
             foreach( Province province in m_provinces )
             {
                 m_money += province.Running(yearInterval);
+
+                // if rebel the roman
+                if( province.m_discontent > 0.15f && !hasEvent )
+                {
+                    if( UnityEngine.Random.value <= province.m_discontent )
+                    {
+                        hasEvent = true;
+
+                        genProvinceRebel(province);
+                    }
+                }
             }
 
             // refresh event 
-            randomEvent(yearInterval);
+            if( hasEvent == false )
+            {
+                randomEvent(yearInterval);
+            }
 
             if (m_timer >= m_yearTime)
             {
@@ -80,14 +96,6 @@ public class Empire : MonoBehaviour
     public void onPayTribute()
     {
         UIMgr.SharedInstance.ShowTributeDlg();
-    }
-
-    /// <summary>
-    /// goto next turn
-    /// </summary>
-    public void onStart()
-    {
-        m_status = GameEnums.GAME_STATUS_RUNNING;
     }
 
     /// <summary>
@@ -136,6 +144,22 @@ public class Empire : MonoBehaviour
         m_status = m_priorStatus;
     }
 
+
+    /// <summary>
+    /// generate a event about province rebel to roman 
+    /// </summary>
+    /// <param name="privince"></param>
+    protected void genProvinceRebel( Province privince )
+    {
+        Debug.Log( privince.m_name + "叛乱");
+
+        TheEvent evt = new TheEvent();
+
+        evt.m_evtType = GameEnums.EVT_TYPE_REBELLION;
+        evt.m_province = privince;
+
+        UIMgr.SharedInstance.ShowEventDlg(evt);
+    }
 
     /// <summary>
     /// random event 

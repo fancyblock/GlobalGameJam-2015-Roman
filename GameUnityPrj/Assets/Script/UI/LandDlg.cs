@@ -6,12 +6,14 @@ public class LandDlg : MonoBehaviour
 {
     public Action m_callback;
 
-    public UILabel m_txtName;
+    public UILabel m_txtTitle;
+    public UILabel m_txtInfo;
     public UILabel m_txtBigAttack;
     public UILabel m_txtMidAttack;
     public UILabel m_txtLittleAttack;
 
     protected Province m_province;
+    protected TheEvent m_event;
 
 	// Use this for initialization
 	void Start () 
@@ -34,19 +36,45 @@ public class LandDlg : MonoBehaviour
     {
         gameObject.SetActive(true);
 
+        m_event = null;
         m_province = province;
 
-        m_txtName.text = "进攻" + m_province.m_name + "?";
-        m_txtBigAttack.text = "大举进攻(必胜) " + m_province.GetBigAttackMoney() + "金币";
-        m_txtMidAttack.text = "一般进攻(50%胜) " + m_province.GetMidAttackMoney() + "金币";
-        m_txtLittleAttack.text = "小规模进攻(20%胜) " + m_province.GetLittleAttackMoney() + "金币";
+        m_txtTitle.text = "进攻" + m_province.m_name + "?";
+        m_txtInfo.text = "是否要派出我们英勇的罗马军团占领这块土地。";
+        m_txtBigAttack.text = "4个军团(必胜) " + m_province.GetBigAttackMoney() + "金币";
+        m_txtMidAttack.text = "2个军团(50%胜) " + m_province.GetMidAttackMoney() + "金币";
+        m_txtLittleAttack.text = "1个军团(20%胜) " + m_province.GetLittleAttackMoney() + "金币";
     }
+
+    /// <summary>
+    /// public show event 
+    /// </summary>
+    /// <param name="evt"></param>
+    public void ShowEvent( TheEvent evt )
+    {
+        gameObject.SetActive(true);
+
+        m_event = evt;
+        m_province = evt.m_province;
+
+        m_txtTitle.text = m_event.m_title;
+        m_txtInfo.text = m_event.m_info;
+        m_txtBigAttack.text = "4个军团(必胜) " + m_province.GetBigAttackMoney() + "金币";
+        m_txtMidAttack.text = "2个军团(50%胜) " + m_province.GetMidAttackMoney() + "金币";
+        m_txtLittleAttack.text = "1个军团(20%胜) " + m_province.GetLittleAttackMoney() + "金币";
+    }
+
 
     /// <summary>
     /// abandon the attack 
     /// </summary>
     public void onAbandon()
     {
+        if (m_event != null)
+        {
+            Empire.SharedInstance.RemoveProvince(m_province);
+        }
+
         m_callback();
     }
 
@@ -95,7 +123,25 @@ public class LandDlg : MonoBehaviour
             if (randomVal <= winRate)
             {
                 m_province.m_taxRate = 0.1f;
-                Empire.SharedInstance.AddProvince(m_province);
+
+                if( Empire.SharedInstance.m_provinces.Contains( m_province ) == false )
+                {
+                    Empire.SharedInstance.AddProvince(m_province);
+                }
+                else
+                {
+                    m_province.m_discontent = 0.0f;
+                    m_province.m_tax = 0.0f;
+                    m_province.m_taxRate = 0.1f;
+                    m_province.Refresh();
+                }
+            }
+            else
+            {
+                if( m_event != null )
+                {
+                    Empire.SharedInstance.RemoveProvince(m_province);
+                }
             }
 
             UIMgr.SharedInstance.RefreshUI();
@@ -103,4 +149,5 @@ public class LandDlg : MonoBehaviour
             m_callback();
         }
     }
+
 }

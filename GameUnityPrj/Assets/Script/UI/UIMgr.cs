@@ -129,7 +129,21 @@ public class UIMgr : MonoBehaviour
         else if( evt.m_evtType == GameEnums.EVT_TYPE_INVADE ||
                 evt.m_evtType == GameEnums.EVT_TYPE_REBELLION )
         {
-            //TODO 
+            if( evt.m_evtType == GameEnums.EVT_TYPE_REBELLION )
+            {
+                evt.m_title = evt.m_province.m_name + "发生叛乱";
+                evt.m_info = evt.m_province.m_name + "已无法忍受帝国沉重的赋税，决心推翻你的统治。";
+            }
+            else
+            {
+                evt.m_title = evt.m_province.m_name + "遭到入侵";
+                evt.m_info = "邪恶的" + Empire.SharedInstance.ENEMYS[UnityEngine.Random.Range(0, 4)] +"向我们发起了进攻，意图使" + evt.m_province.m_name + "脱离罗马。";
+
+                // 敌人恶感度清零 
+                //TODO 
+            }
+
+            m_landDlg.ShowEvent(evt);
         }
         
     }
