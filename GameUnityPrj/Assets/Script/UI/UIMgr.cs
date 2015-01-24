@@ -151,6 +151,8 @@ public class UIMgr : MonoBehaviour
     /// </summary>
     protected void onDlgClosed()
     {
+        Debug.Log("[UIMgr]: onDlgClosed");
+
         m_eventDlg.gameObject.SetActive(false);
         m_landDlg.gameObject.SetActive(false);
         m_provinceDlg.gameObject.SetActive(false);
