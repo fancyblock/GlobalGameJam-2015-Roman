@@ -54,12 +54,13 @@ public class Empire : MonoBehaviour
 	{
         if (m_status == GameEnums.GAME_STATUS_RUNNING)
         {
-            m_timer += Time.fixedDeltaTime;
+            m_timer += Time.deltaTime;
             refreshProgress();
 
             if (m_timer >= m_yearTime)
             {
                 m_status = GameEnums.GAME_STATUS_WAITTING;
+                m_timer = 0.0f;
                 refreshUI();
             }
         }
@@ -92,6 +93,28 @@ public class Empire : MonoBehaviour
 
         refreshUI();
         refreshProgress();
+    }
+
+    /// <summary>
+    /// add province 
+    /// </summary>
+    /// <param name="province"></param>
+    public void AddProvince(Province province)
+    {
+        province.m_conquered = true;
+        province.Refresh();
+        m_provinces.Add(province);
+    }
+
+    /// <summary>
+    /// remove province 
+    /// </summary>
+    /// <param name="province"></param>
+    public void RemoveProvince(Province province)
+    {
+        province.m_conquered = false;
+        province.Refresh();
+        m_provinces.Remove(province);
     }
 
     /// <summary>

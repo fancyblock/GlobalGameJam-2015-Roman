@@ -7,14 +7,19 @@ public class Province : MonoBehaviour
     public UILabel m_txtName;
 
     public string m_name;
-    public int m_conquered;
+    public bool m_conquered;
     public int m_productivity;              // 生产力
     public float m_taxRate;                 // 税率
+
+    public Color m_conqueredColor;
+    public Color m_unconqueredColor;
 
 	// Use this for initialization
 	void Start () 
 	{
         m_txtName.text = m_name;
+
+        Refresh();
 	}
 	
 	// Update is called once per frame
@@ -28,9 +33,16 @@ public class Province : MonoBehaviour
     /// </summary>
     public void onClick()
     {
-        Debug.Log("[Province]: onClick");
+        Debug.Log("[Province]: onClick => " + m_name);
 
-        //TODO 
+        if (m_conquered)
+        {
+            //TODO 
+        }
+        else
+        {
+            //TODO 
+        }
     }
 
     /// <summary>
@@ -40,6 +52,21 @@ public class Province : MonoBehaviour
     public int GetIncome()
     {
         return (int)( m_productivity * m_taxRate );
+    }
+
+    /// <summary>
+    /// refresh 
+    /// </summary>
+    public void Refresh()
+    {
+        if (m_conquered)
+        {
+            m_mapSprite.color = m_conqueredColor;
+        }
+        else
+        {
+            m_mapSprite.color = m_unconqueredColor;
+        }
     }
 
 }
