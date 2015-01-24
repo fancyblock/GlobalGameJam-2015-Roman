@@ -94,6 +94,7 @@ public class LandDlg : MonoBehaviour
 
             if (randomVal <= winRate)
             {
+                m_province.m_taxRate = 0.1f;
                 Empire.SharedInstance.AddProvince(m_province);
             }
 

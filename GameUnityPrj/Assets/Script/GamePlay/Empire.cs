@@ -51,6 +51,9 @@ public class Empire : MonoBehaviour
             m_timer += Time.deltaTime;
             UIMgr.SharedInstance.RefreshProgress();
 
+            // refresh event 
+            //TODO 
+
             if (m_timer >= m_yearTime)
             {
                 m_status = GameEnums.GAME_STATUS_WAITTING;
