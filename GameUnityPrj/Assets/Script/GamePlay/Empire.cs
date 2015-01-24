@@ -205,7 +205,5 @@ public class Empire : MonoBehaviour
 
             UIMgr.SharedInstance.ShowEventDlg(evt);
         }
-
     }
-
 }
