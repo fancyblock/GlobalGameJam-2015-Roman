@@ -62,4 +62,31 @@ public class Province : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// get big attack money
+    /// </summary>
+    /// <returns></returns>
+    public int GetBigAttackMoney()
+    {
+        return m_productivity * 3;
+    }
+
+    /// <summary>
+    /// get middle attack money
+    /// </summary>
+    /// <returns></returns>
+    public int GetMidAttackMoney()
+    {
+        return m_productivity * 2;
+    }
+
+    /// <summary>
+    /// get little attack money
+    /// </summary>
+    /// <returns></returns>
+    public int GetLittleAttackMoney()
+    {
+        return m_productivity;
+    }
+
 }
