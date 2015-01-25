@@ -197,7 +197,7 @@ public class Empire : MonoBehaviour
         
         // invide 
         m_invadeRate += ( elapsed * GameEnums.INVADE_FACTOR);
-        if( UnityEngine.Random.value <= m_invadeRate )
+        if( UnityEngine.Random.value <= m_invadeRate && m_provinces.Count > 2 )
         {
             // generate a invide  event 
             TheEvent evt = new TheEvent();
