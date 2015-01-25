@@ -7,14 +7,15 @@ public class ProvinceDlg : MonoBehaviour
 
     public UILabel m_txtName;
     public UISlider m_slider;
-    public UILabel m_txtRate;
+    public UILabel m_txtGDP;
+    public UILabel m_txtTax;
 
     protected Province m_province;
 	
 	// Update is called once per frame
 	void Update () 
 	{
-        m_txtRate.text = m_slider.value * 100 + "%";
+        m_txtTax.text = (int)(m_slider.value * m_province.m_productivity) + "金币/年";
 	}
 
     /// <summary>
@@ -30,7 +31,8 @@ public class ProvinceDlg : MonoBehaviour
 
         m_txtName.text = m_province.m_name;
         m_slider.value = m_province.m_taxRate;
-        m_txtRate.text = m_province.m_taxRate * 100 + "%";
+        m_txtGDP.text = m_province.m_productivity + "金币/年";
+        m_txtTax.text = (int)(m_province.m_taxRate * m_province.m_productivity) + "金币/年";
     }
 
     /// <summary>
@@ -38,10 +40,6 @@ public class ProvinceDlg : MonoBehaviour
     /// </summary>
     public void onAbandon()
     {
-        Debug.Log("[ProvinceDlg]: onAbandon => " + m_province.m_name );
-
-        Empire.SharedInstance.RemoveProvince(m_province);
-
         m_callback();
     }
 

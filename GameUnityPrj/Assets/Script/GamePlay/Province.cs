@@ -15,12 +15,12 @@ public class Province : MonoBehaviour
     public float m_taxRate;                 // 税率
     public bool m_dontDisplayName;
 
-    public Color m_conqueredColor;
-    public Color m_unconqueredColor;
-
     public float m_discontent;
 
     public float m_tax;
+
+    protected Color m_conqueredColor;
+    protected Color m_unconqueredColor;
 
 	// Use this for initialization
 	void Start () 
@@ -41,6 +41,9 @@ public class Province : MonoBehaviour
             if( m_spotSprite != null )
                 m_spotSprite.gameObject.SetActive(false);
         }
+
+        m_conqueredColor = Empire.SharedInstance.m_conqueredColor;
+        m_unconqueredColor = Empire.SharedInstance.m_unconqueredColor;
 
         Refresh();
 	}

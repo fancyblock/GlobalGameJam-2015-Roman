@@ -22,6 +22,9 @@ public class Empire : MonoBehaviour
     public float m_goldRate;
     public float m_invadeRate;
 
+    public Color m_conqueredColor;
+    public Color m_unconqueredColor;
+
     void Awake()
     {
         m_instance = this;
