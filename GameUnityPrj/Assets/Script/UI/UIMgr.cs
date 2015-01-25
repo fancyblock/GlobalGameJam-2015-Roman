@@ -60,7 +60,19 @@ public class UIMgr : MonoBehaviour
     /// </summary>
     public void RefreshUI()
     {
-        m_txtAge.text = "公元" + m_empire.m_age + "年";
+        if( m_empire.m_age < 0 )
+        {
+            m_txtAge.text = "公元前" + -m_empire.m_age + "年";
+        }
+        else if( m_empire.m_age == 0 )
+        {
+            m_txtAge.text = "公元元年";
+        }
+        else
+        {
+            m_txtAge.text = "公元" + m_empire.m_age + 2 + "年";
+        }
+        
         m_txtMoney.text = "国库：" + m_empire.m_money + "金币";
         m_txtProvinceInfo.text = "行省数：" + m_empire.m_provinces.Count;
 

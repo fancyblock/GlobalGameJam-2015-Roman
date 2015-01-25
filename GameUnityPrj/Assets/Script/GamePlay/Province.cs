@@ -1,15 +1,19 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Province : MonoBehaviour 
 {
     public UISprite m_mapSprite;
+    public List<UISprite> m_subSprite;
+    public UISprite m_spotSprite;
     public UILabel m_txtName;
 
     public string m_name;
     public bool m_conquered;
     public int m_productivity;              // 生产力
     public float m_taxRate;                 // 税率
+    public bool m_dontDisplayName;
 
     public Color m_conqueredColor;
     public Color m_unconqueredColor;
@@ -25,6 +29,18 @@ public class Province : MonoBehaviour
         m_discontent = 0.0f;
         m_discontent = 0.0f;
         m_tax = 0.0f;
+
+        if( m_dontDisplayName )
+        {
+            m_txtName.gameObject.SetActive(false);
+            m_spotSprite.gameObject.SetActive(true);
+        }
+        else
+        {
+            m_txtName.gameObject.SetActive(true);
+            if( m_spotSprite != null )
+                m_spotSprite.gameObject.SetActive(false);
+        }
 
         Refresh();
 	}
@@ -95,10 +111,26 @@ public class Province : MonoBehaviour
         if (m_conquered)
         {
             m_mapSprite.color = m_conqueredColor;
+
+            if( m_subSprite != null )
+            {
+                for( int i = 0; i < m_subSprite.Count ;i++)
+                {
+                    m_subSprite[i].color = m_conqueredColor;
+                }
+            }
         }
         else
         {
             m_mapSprite.color = m_unconqueredColor;
+
+            if (m_subSprite != null)
+            {
+                for (int i = 0; i < m_subSprite.Count; i++)
+                {
+                    m_subSprite[i].color = m_unconqueredColor;
+                }
+            }
         }
     }
 
