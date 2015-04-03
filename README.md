@@ -1,12 +1,7 @@
 # GlobalGameJam-2015-pending
 game for Global Game Jam 2015 Shanghai site
 
-no idea
+罗马帝国
 
-one programmer
-
-no artist
-
-
-I need you.
+一个策略类游戏
 
