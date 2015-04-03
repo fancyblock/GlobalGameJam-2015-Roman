@@ -1,4 +1,4 @@
-# GlobalGameJam-2015-pending
+# Roman
 game for Global Game Jam 2015 Shanghai site
 
 罗马帝国
